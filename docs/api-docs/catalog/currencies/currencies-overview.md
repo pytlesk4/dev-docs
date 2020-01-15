@@ -16,7 +16,7 @@
 
 BigCommerce’s flexible Currency settings assist developers in building Multi-Currency storefronts that empower shoppers and merchants to do business in their currency of choice. Allowing customers to shop and check out in their native currency provides a more consistent and positive shopping experience, and maintaining price expectations throughout the shopping process encourages conversions for merchants. 
 
-This article provides a high-level guide to Multi-Currency concepts on BigCommerce as well as specific instructions on [adding currencies](adding-a-currency) via the control panel. For additional details on how currencies are surfaced throughout BigCommerce APIs, user interfaces, and storefront components, see [How Currencies Works](https://developer.bigcommerce.com/api-docs/catalog/currencies/how-currencies-work)
+This article provides a high-level guide to Multi-Currency concepts on BigCommerce as well as specific instructions on [adding currencies](adding-a-currency) via the control panel. For additional details on how currencies are surfaced throughout BigCommerce APIs, user interfaces, and storefront components, see [How Currencies Works](https://developer.bigcommerce.com/api-docs/catalog/currencies/how-currencies-work).
 
 ## Display vs. Transactional
 
@@ -53,7 +53,7 @@ Before setting up multiple currencies on a store, ensure the store is configured
 * Stencil Theme
 * Optimized One-Page Checkout
 
-Additionally, review the [Currency API reference](https://developer.bigcommerce.com/api-reference/store-management/currency-api) to get aquainted with the endpoints and resources related to configuring multiple currencies. 
+Additionally, review the [Currency API reference](https://developer.bigcommerce.com/api-reference/store-management/currency-api) to get acquainted with the endpoints and resources related to configuring multiple currencies. 
 
 <div class="HubBlock--callout">
 <div class="CalloutBlock--info">
@@ -97,13 +97,13 @@ For more in-depth instructions and helpful screenshots, see [Adding a Currency](
 
 <a id="how-currencies-work"></a>
 
-For details on how currencies are surfaced throughout BigCommerce APIs, user interfaces, and storefront components, see [How Currencies Works](https://developer.bigcommerce.com/api-docs/catalog/currencies/how-currencies-work)
+For details on how currencies are surfaced throughout BigCommerce APIs, user interfaces, and storefront components, see [How Currencies Works](https://developer.bigcommerce.com/api-docs/catalog/currencies/how-currencies-work).
 
 ## Supported Features
 
 <a id="supported-features"></a>
 
-See the table below for a list of supported and un-supported features.
+See the table below for a list of supported and unsupported features.
 
 | Supported                                    | Not Supported                                  |
 |----------------------------------------------|------------------------------------------------|
@@ -149,7 +149,7 @@ Shoppers will still be able to select their currency of choice on the storefront
 
 **Will my analytics show in the transactional or display currency?**  
 Analytics shows an approximate price in the store's default currency. This is based on the configured exchange rate. There is no
-abandoned cart analytics or web analytics such as Google Analytics. Currently it does not break down anayltics by currency.
+abandoned cart analytics or web analytics such as Google Analytics. Currently it does not break down analytics by currency.
 
 **How can I setup settlement currencies in Stripe?**  
 Please reach out to Stripe for more information on setting up the account. 

@@ -654,6 +654,7 @@ params
 headlessly
 JWT
 sku
+center
  - docs/api-docs/cart-and-checkout/working-sf-apis.md
 postData
 cartItems
