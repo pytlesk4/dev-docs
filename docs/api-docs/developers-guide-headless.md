@@ -28,7 +28,7 @@ In this article we will review ways you can implement headless, what requires PC
 
 ## Ways to Implement Headless
 There are many ways to implement headless commerce. Below are just a few ways to start with Headless commerce.
-* Use our Wordpress Plugin to leverage a custom CMS powered by the BigCommerce Catalog, Cart and Checkout APIs.
+* Use our WordPress Plugin to leverage a custom CMS powered by the BigCommerce Catalog, Cart and Checkout APIs.
 * Create a custom shopper experience by creating your own storefront and checkout using our APIs to manage the Catalog, Cart, Checkout and Payments.
 * Use the BigCommerce storefront with a customized checkout using the Checkout SDK.
 

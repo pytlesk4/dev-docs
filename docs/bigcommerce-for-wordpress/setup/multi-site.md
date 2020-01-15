@@ -1,4 +1,4 @@
-<div><h3 class="sub-docs-type" id="bigcommerce-for-wordpress">BigCommerce for Wordpress</h3>
+<div><h3 class="sub-docs-type" id="bigcommerce-for-wordpress">BigCommerce for WordPress</h3>
 
 # Multisite Setup
 
@@ -145,14 +145,14 @@ The screen will also contain your API Path, which you will need for the WordPres
 1. To set up a WordPress site using this method, click `Enter your API credentials` on the welcome screen in the plugin. 
 
 <!--
-    title: #### Wordpress Plugin Welcome Screen
+    title: #### WordPress Plugin Welcome Screen
 
     data: //s3.amazonaws.com/user-content.stoplight.io/6116/1544043727239
 -->
 
-#### Wordpress Plugin Welcome Screen
-![#### Wordpress Plugin Welcome Screen
-](//s3.amazonaws.com/user-content.stoplight.io/6116/1544043727239 "#### Wordpress Plugin Welcome Screen
+#### WordPress Plugin Welcome Screen
+![#### WordPress Plugin Welcome Screen
+](//s3.amazonaws.com/user-content.stoplight.io/6116/1544043727239 "#### WordPress Plugin Welcome Screen
 ")
 
 After clicking the text, you will be asked for your store's API credentials and base path.
@@ -183,4 +183,4 @@ _Congratulations, you're done setting up your additional site!_
 
 ## Additional Resources
 
-* [Multisite Ecommerce with Wordpress and BigCommerce](https://medium.com/bigcommerce-developer-blog/multi-site-ecommerce-with-wordpress-and-bigcommerce-40dee194f8a) (Developer Blog)
+* [Multisite Ecommerce with WordPress and BigCommerce](https://medium.com/bigcommerce-developer-blog/multi-site-ecommerce-with-wordpress-and-bigcommerce-40dee194f8a) (Developer Blog)

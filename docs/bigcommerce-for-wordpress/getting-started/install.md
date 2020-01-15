@@ -1,4 +1,4 @@
-<div><h3 class="sub-docs-type" id="bigcommerce-for-wordpress">BigCommerce for Wordpress</h3>
+<div><h3 class="sub-docs-type" id="bigcommerce-for-wordpress">BigCommerce for WordPress</h3>
 
 # Install
 
@@ -23,7 +23,7 @@
 
 To install BigCommerce for WordPress, you’ll need to [install and activate the plugin](https://wordpress.org/plugins/bigcommerce/) in WordPress and connect your BigCommerce account. If you don’t already have an account, you will be prompted to create one. 
 
-For a walkthrough on installing and activating the plugin, see [Using BigCommerce for Wordpress](https://support.bigcommerce.com/s/article/BigCommerce-for-WordPress#installation) (BigCommerce Help Center).
+For a walkthrough on installing and activating the plugin, see [Using BigCommerce for WordPress](https://support.bigcommerce.com/s/article/BigCommerce-for-WordPress#installation) (BigCommerce Help Center).
 
 ## Setting Your Channel Name
 

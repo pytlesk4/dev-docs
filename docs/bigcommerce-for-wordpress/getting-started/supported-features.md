@@ -1,19 +1,19 @@
-<div><h3 class="sub-docs-type" id="bigcommerce-for-wordpress">BigCommerce for Wordpress</h3>
+<div><h3 class="sub-docs-type" id="bigcommerce-for-wordpress">BigCommerce for WordPress</h3>
 
 # Supported Features
 
 <div class="otp" id="no-index">
 
 ### On This Page
-- [BigCommerce for Wordpress Supported Features](#bigcommerce-for-wordpress-supported-features)
-- [BigCommerce for Wordpress Unsupported Features](#bigcommerce-for-wordpress-unsupported-features)
+- [BigCommerce for WordPress Supported Features](#bigcommerce-for-wordpress-supported-features)
+- [BigCommerce for WordPress Unsupported Features](#bigcommerce-for-wordpress-unsupported-features)
 - [General Product Roadmap](#general-product-roadmap)
 
 </div>
 
-## BigCommerce for Wordpress Supported Features
+## BigCommerce for WordPress Supported Features
 
-The open source BigCommerce for Wordpress plugin currently supports the following features and capabilities that are native to the BigCommerce platform and more:
+The open source BigCommerce for WordPress plugin currently supports the following features and capabilities that are native to the BigCommerce platform and more:
 
 * Complex Product Catalog (600 SKUs per product, 250 product values for a single option)
 * Product Variants and Product Variant Pricing
@@ -34,7 +34,7 @@ The open source BigCommerce for Wordpress plugin currently supports the followin
 
 ### Supported Payment Gateways
 
-BigCommerce has over 65 payment gateway integrations available out-of-the box, serving 100+ countries and over 250 local payment methods. BigCommerce for Wordpress currently supports the following payment gateways:
+BigCommerce has over 65 payment gateway integrations available out-of-the box, serving 100+ countries and over 250 local payment methods. BigCommerce for WordPress currently supports the following payment gateways:
 
 * PayPal Express (now called PayPal Checkout)
 * PayPal through Braintree
@@ -42,9 +42,9 @@ BigCommerce has over 65 payment gateway integrations available out-of-the box, s
 
 Unsupported Hosted Payment Gateways are Amazon Pay, AfterPay, Google Pay, Chase Pay, and Masterpass.
 
-## BigCommerce for Wordpress Unsupported Features
+## BigCommerce for WordPress Unsupported Features
 
-The BigCommerce for Wordpress plugin does not currently support the following features: 
+The BigCommerce for WordPress plugin does not currently support the following features: 
 
 * Product Pick Lists and Bundled * Products
 * Product File Upload Field
@@ -56,7 +56,7 @@ The BigCommerce for Wordpress plugin does not currently support the following fe
 
 ## General Product Roadmap
 
-We plan on supporting and improving the following features in the BigCommerce for Wordpress plugin:
+We plan on supporting and improving the following features in the BigCommerce for WordPress plugin:
 
 * Product Modifier Improvements
 * Product Variant Images
