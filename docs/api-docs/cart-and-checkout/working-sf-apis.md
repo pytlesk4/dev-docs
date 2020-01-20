@@ -7,6 +7,7 @@
 - [Setup: Create a Helper Function](#setup-create-a-helper-function)
 - [Creating a Cart](#creating-a-cart)
 - [Getting a Cart](#getting-a-cart)
+- [Adding Items to Cart](#adding-items-to-cart)
 - [Storefront Checkout](#storefront-checkout)
 - [Troubleshooting](#troubleshooting)
 - [Resources](#resources)
@@ -29,7 +30,7 @@ Requests should be made against a store's [permanent URL](https://forum.bigcomme
 In service of following [DRY](https://en.wikipedia.org/wiki/Don%27t_repeat_yourself) (wikipedia.org) programming principles, `POST` requests in this tutorial makes use of the following helper functions:
 
 ```js
-function postData(url = '', requestJson = {}) {
+function postData(url = '', cartId = '', requestJson = {}) {
 	return fetch(url, {
 		method: "POST",
 		credentials: "same-origin",
@@ -55,7 +56,6 @@ function deleteCartItem(url = '', cartId = '', itemId = '') {
 }
 ```
 
-
 Navigate to your BigCommerce storefront, then paste the helper functions into your browser's JavaScript console. Once you do, you'll be able to use them to make requests while going through this tutorial (so long as you don't navigate away or reload the page):
 
 ![Developer Tools Example](https://raw.githubusercontent.com/bigcommerce/dev-docs/master/assets/images/working_with_sf_aps_01.png "Developer Tools Example")
@@ -63,13 +63,6 @@ Navigate to your BigCommerce storefront, then paste the helper functions into yo
 This function uses **Fetch API's** `fetch()` method to make `HTTP` requests and return the response JSON. For more information on using Fetch API, see [Using Fetch](https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API).
 
 ## Creating a Cart
-
-First, we pass in the request URL to create a cart into the function call. 
-
-Then we need to pass in the `lineItems` array. 
-
-If there are [variants](/api-reference/catalog/catalog-api/product-variants/getvariantsbyproductid) then the `variantId` or `optionId` with the `optionValues` need to be added.  
-See [Create Cart](/api-reference/cart-checkout/storefront-cart-api/cart/createacart) for additional information. The response will be printed to the browser console.  Make sure to note the value for cartId as it will be used later.
 
 ```javascript
 postData(`/api/storefront/cart`, {
@@ -88,10 +81,36 @@ postData(`/api/storefront/cart`, {
   .catch(error => console.error(error));
 ```
 
+When adding a product with variant, include the `variantId` or `optionId` in the then the request:
+
+```js
+postData(`/api/storefront/cart`, {
+  "lineItems": [
+    {
+      "quantity": 1,
+      "productId": 77,
+      "optionSelections": [
+        {
+          "optionId": 120,
+          "optionValue": 69
+        },
+        {
+          "optionId": 121,
+          "optionValue": 10
+		}
+      ]
+    }
+  ]
+})
+.then(data => console.log(JSON.stringify(data))) 
+.catch(error => console.error(error));
+```
+
+For additional details, see [API Reference > Storefront Carts > Create a Cart](https://developer.bigcommerce.com/api-reference/cart-checkout/storefront-cart-api/cart/createacart).
+
 ## Getting a Cart
 
 Getting cart data can be accomplished by making a `GET` request to `/api/storefront/cart`: 
-
 
 ```js
 fetch('/api/storefront/cart', {
@@ -119,20 +138,10 @@ fetch('/api/storefront/cart?include=lineItems.digitalItems.options,lineItems.phy
   });
 ```
 
-See [API Reference > Storefront Carts > Get a Cart](https://developer.bigcommerce.com/api-reference/cart-checkout/storefront-cart-api/cart/getacart) for a list of available query parameters as well as example responses. 
+See [API Reference > Storefront Carts > Get a Cart](https://developer.bigcommerce.com/api-reference/cart-checkout/storefront-cart-api/cart/getacart) for example responses as well as a list of available query parameters.
 
-### Add Item to Cart
+## Adding Items to Cart
 
-To add a line item, adjust the fetch statement. It needs to accept the `url` and `cartId`.  `cartItems` is again passed as the body of the request. 
-
-<!--
-title: "Add Item to Cart"
-subtitle: ""
-lineNumbers: true
--->
-
-**Example Add Item to a Cart**  
-`/PUT https://<store_url>/api/storefront/carts/{cartId}/items`
 
 ```js
 postData(`/api/storefront/carts/`, `1d2d2445-5e5d-4798-ada1-37652a7822c8` ,{
@@ -146,7 +155,7 @@ postData(`/api/storefront/carts/`, `1d2d2445-5e5d-4798-ada1-37652a7822c8` ,{
   .then(data => console.log(JSON.stringify(data))) 
   .catch(error => console.error(error));
   
-function postData(url = ``, cartId = ``, cartItems = {}) {
+function postData(url = '', cartId = '', cartItems = {}) {
       return fetch(url + cartId + '/items', {
           method: "POST",
           credentials: "same-origin",
