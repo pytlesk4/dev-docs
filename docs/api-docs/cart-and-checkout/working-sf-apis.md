@@ -4,149 +4,74 @@
 
 ### On This Page
 - [Prerequisites:](#prerequisites)
-- [Create postData() function](#create-postdata-function)
-- [Storefront Cart](#storefront-cart)
+- [Setup: Create a Helper Function](#setup-create-a-helper-function)
+- [Creating a Cart](#creating-a-cart)
+- [Getting a Cart](#getting-a-cart)
 - [Storefront Checkout](#storefront-checkout)
 - [Troubleshooting](#troubleshooting)
 - [Resources](#resources)
 
 </div>
 
+This tutorial demonstrates how to use the JavaScript to make common Storefront API requests.
+
+Interaction with Storefront API is intended to be done via JavaScript. 
+`HTTPS` is required for storefront API requests
+Requests should be made against a store's [permanent URL](https://forum.bigcommerce.com/s/article/Changing-Domains) (otherwise, [CORs](https://developers.google.com/web/ilt/pwa/working-with-the-fetch-api#cross-origin_requests) (developers.google.com) errors may result).
+
 ## Prerequisites:
-* Chrome/Firefox/Safari - Fetch does not work every version of [Internet Explorer](https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API/Using_Fetch#Browser_compatibility). We recommend installing a [polyfill](https://github.com/github/fetch#html), then use fetch as usual.
 * BigCommerce Store with at least two [products](/api-reference/catalog/catalog-api/products/createproduct) and a [shipping option](/api-docs/shipping/shipping-overview#shipping_shipping-zone-methods) available. 
-* Familiar with browser developer console
+* Familiarity with JavaScript and [Fetch API](https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API) (developer.mozilla.org)
+* Familiarity with your browser's javascript console and developer tools
 
-This tutorial reviews the Fetch API and then uses it to complete some storefront actions. 
+## Setup: Create a Helper Function
 
-Interaction with the Storefront APIs should be done using JavaScript. The Storefront APIs do not require API Tokens to work. The URL should be served over https and be on the [permanent URL](https://forum.bigcommerce.com/s/article/Changing-Domains); otherwise, it can cause [CORs](https://developers.google.com/web/ilt/pwa/working-with-the-fetch-api#cross-origin_requests) errors in the console.
-
-## Create postData() function
-
-Below is the function we are going to use to create a new cart using the Storefront Cart API.
-
-<!--
-title: "postData"
-subtitle: ""
-lineNumbers: true
--->
-**postData**
+In service of following [DRY](https://en.wikipedia.org/wiki/Don%27t_repeat_yourself) (wikipedia.org) programming principles, `POST` requests in this tutorial makes use of the following helper functions:
 
 ```js
-postData(`/api/storefront/cart`, {
-        "lineItems": [
-        {
-            "quantity": 1,
-            "productId": 196
-        },
-        {
-            "quantity": 1,
-            "productId": 184
-        }
-        ]}
-    )
-  .then(data => console.log(JSON.stringify(data))) 
-  .catch(error => console.error(error));
+function postData(url = '', requestJson = {}) {
+	return fetch(url, {
+		method: "POST",
+		credentials: "same-origin",
+		headers: {
+			"Content-Type": "application/json" },
+		body: JSON.stringify(requestJson), 
+	})
+	.then(response => {
+		return response.json();
+	})
+}
 
-function postData(url = ``, cartItems = {}) {
-      return fetch(url, {
-          method: "POST",
-          credentials: "same-origin",
-          headers: {
-              "Content-Type": "application/json" },
-          body: JSON.stringify(cartItems), 
-      })
-      .then(response => response.json()); 
-  }
+function deleteCartItem(url = '', cartId = '', itemId = '') {
+	return fetch(url + cartId + '/items/' + itemId, {
+		method: "DELETE",
+		credentials: "same-origin",
+		headers: { 
+			"Content-Type": 
+			"application/json", 
+		}
+		})
+		.then(response => response.json());
+}
 ```
 
-Let’s review the function. First, we call the `postData()` function, which is defined at the bottom of the code excerpt.
 
-<div class="HubBlock--callout">
-<div class="CalloutBlock--info">
-<div class="HubBlock-content">
-    
-<!-- theme:  -->
-### Hoisted Functions
-> JavaScript allows function declarations to be [hoisted](https://scotch.io/tutorials/understanding-hoisting-in-javascript#toc-hoisting-functions), so the function postData() can be called before being defined.
+Navigate to your BigCommerce storefront, then paste the helper functions into your browser's JavaScript console. Once you do, you'll be able to use them to make requests while going through this tutorial (so long as you don't navigate away or reload the page):
 
-</div>
-</div>
-</div>
+![Developer Tools Example](https://raw.githubusercontent.com/bigcommerce/dev-docs/master/assets/images/working_with_sf_aps_01.png "Developer Tools Example")
 
-The `postData()` function accepts two arguments: a URL string and a body. 
+This function uses **Fetch API's** `fetch()` method to make `HTTP` requests and return the response JSON. For more information on using Fetch API, see [Using Fetch](https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API).
 
-The URL string that we pass in is `/api/storefront/cart`. There is no need to provide the full store URL when making the request in the browser because the URL path appends to the current website URL.
-
-For the request body, we pass in the `lineItems` array, which contains the product IDs and quantities to add to cart. 
-
-Note that when we define the `postData` function, we set the body parameter to cartItems, which is an empty object. When the `lineItems` array is passed to the function, the cartItems object automatically wraps the array in a set of outer curly braces. Keep this in mind when adapting this code to accept a different request body--otherwise, your request body may wind up with an extra set of curly braces.  
-
-After the line items, fetch uses [then()](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise/then) which accepts the data that is returned and prints it to the console. 
-
-If there is an error, the next line [catch()](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise/catch) prints the returned error to the console. 
-
-<div class="HubBlock-header">
-    <div class="HubBlock-header-title flex items-center">
-        <div class="HubBlock-header-name"></div>
-    </div><div class="HubBlock-header-subtitle"></div>
-</div>
-
-<!--
-title: ""
-subtitle: ""
-lineNumbers: true
--->
-
-```js
-function postData(url = ``, cartItems = {}) {
-      return fetch(url, {
-          method: "POST",
-          credentials: "same-origin",
-          headers: {
-              "Content-Type": "application/json" },
-          body: JSON.stringify(cartItems), 
-      })
-     .then(response => response.json()); 
-  }
-```
-
-Next, we are going to walk through the postData() function above. Here the arguments for `url` and `cartItems` are defined. In later examples, you will see we can pass in different items depending on what we need in the fetch request.  postData() returns another function, fetch(). Fetch takes a URL, method and a body. Other [arguments](https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API/Using_Fetch#Supplying_request_options) can be added such as credentials, headers, etc. 
-
-[Credentials](https://github.com/github/fetch#sending-cookies) are set to [same-origin](https://developer.mozilla.org/en-US/docs/Web/API/Request/credentials). The credentials that you need will depend on your app setup. Review your app setup carefully; otherwise, this will cause [CORs](https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS) errors. Below is a simplified guide on when to use each type of credential.
-
-| Credential | When to Use |
-| -- | -- |
-| same-origin | If the request and response server is the same. Ex. bigcommerce.com => bigcommerce.com |
-| include | If the request and response domain are different. Ex. bigcommerce.com => developers.bigcommerce.com  |
-| omit | To disable sending cookies to any domain |
-
-Content-Type is set to application/json. The body data needs to match the content-type. BigCommerce only sends and accepts the Storefront API  data in json. 
-
- The body is set to [JSON.stringify()](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/JSON/stringify) which converts JavaScript values to a string. 
-
-Finally, `.then()` is parsing the response to JSON. 
-
-Now that we have the basics of creating a function with the fetch() API, we are going to use it to create a cart, get a cart and delete cart items. 
-
-## Storefront Cart
-
-### Create a Cart
+## Creating a Cart
 
 First, we pass in the request URL to create a cart into the function call. 
 
-Then we need to pass in the `lineItems` array. The `quantity` and `productId` are required to create a cart. If there are [variants](/api-reference/catalog/catalog-api/product-variants/getvariantsbyproductid) then the variantId or optionId with the optionValues need to be added.  See [Create Cart](/api-reference/cart-checkout/storefront-cart-api/cart/createacart) for more examples. The response will be printed to the browser console.  Make sure to note the value for cartId as it will be used later.
+Then we need to pass in the `lineItems` array. 
 
-<!--
-title: "Create Cart"
-subtitle: ""
-lineNumbers: true
--->
+If there are [variants](/api-reference/catalog/catalog-api/product-variants/getvariantsbyproductid) then the `variantId` or `optionId` with the `optionValues` need to be added.  
+See [Create Cart](/api-reference/cart-checkout/storefront-cart-api/cart/createacart) for additional information. The response will be printed to the browser console.  Make sure to note the value for cartId as it will be used later.
 
-**Create a Cart**  
-`/POST https://<store_url>/api/storefront/carts`
-
-```js
+```javascript
 postData(`/api/storefront/cart`, {
         "lineItems": [
         {
@@ -161,119 +86,15 @@ postData(`/api/storefront/cart`, {
     )
   .then(data => console.log(JSON.stringify(data))) 
   .catch(error => console.error(error));
-
-function postData(url = ``, cartItems = {}) {
-      return fetch(url, {
-          method: "POST",
-          credentials: "same-origin",
-          headers: {
-              "Content-Type": "application/json" },
-          body: JSON.stringify(cartItems), 
-      })
-      .then(response => response.json()); 
-  }
 ```
 
-<!--
-title: "Create Cart Response"
-subtitle: ""
-lineNumbers: true
--->
+## Getting a Cart
 
-**Example Response Create a Cart**
+Getting cart data can be accomplished by making a `GET` request to `/api/storefront/cart`: 
 
-```json
-{
-	"id": "1650fb51-172b-4cde-a220-90c6a8ef9293",
-	"customerId": 0,
-	"email": "",
-	"currency": {
-		"name": "US Dollars",
-		"code": "USD",
-		"symbol": "$",
-		"decimalPlaces": 2
-	},
-	"isTaxIncluded": false,
-	"baseAmount": 73.95,
-	"discountAmount": 0,
-	"cartAmount": 73.95,
-	"coupons": [],
-	"discounts": [{
-		"id": "7349b13a-1453-4050-a769-1a6ad1823369",
-		"discountedAmount": 0
-	}, {
-		"id": "4a69cbdf-4320-4e1f-852b-0edc2a55f13a",
-		"discountedAmount": 0
-	}],
-	"lineItems": {
-		"physicalItems": [{
-			"id": "7349b13a-1453-4050-a769-1a6ad1823369",
-			"parentId": null,
-			"variantId": 362,
-			"productId": 191,
-			"sku": "",
-			"name": "Openhouse No. 3",
-			"url": "https://{store_url)/all/openhouse-no-3/",
-			"quantity": 1,
-			"brand": "Openhouse Magazine",
-			"isTaxable": true,
-			"imageUrl": "https://cdn11.bigcommerce.com/s-{store_hash)/products/191/images/475/openhousevol3_1024x1024__59692__16355.1534344544.330.500.jpg?c=2",
-			"discounts": [],
-			"discountAmount": 0,
-			"couponAmount": 0,
-			"listPrice": 27.95,
-			"salePrice": 27.95,
-			"extendedListPrice": 27.95,
-			"extendedSalePrice": 27.95,
-			"isShippingRequired": true,
-			"type": "physical",
-			"giftWrapping": null
-		}, {
-			"id": "4a69cbdf-4320-4e1f-852b-0edc2a55f13a",
-			"parentId": null,
-			"variantId": 356,
-			"productId": 185,
-			"sku": "",
-			"name": "Utility Caddy",
-			"url": "https://{store_url)/all/utility-caddy/",
-			"quantity": 1,
-			"brand": "OFS",
-			"isTaxable": true,
-			"imageUrl": "https://cdn11.bigcommerce.com/s-{store_hash)/products/185/images/449/utilitybucket1_1024x1024__78563__75042.1534344535.330.500.jpg?c=2",
-			"discounts": [],
-			"discountAmount": 0,
-			"couponAmount": 0,
-			"listPrice": 46,
-			"salePrice": 46,
-			"extendedListPrice": 46,
-			"extendedSalePrice": 46,
-			"isShippingRequired": true,
-			"type": "physical",
-			"giftWrapping": null
-		}],
-		"digitalItems": [],
-		"giftCertificates": [],
-		"customItems": []
-	},
-	"createdTime": "2018-11-06T19:22:51+00:00",
-	"updatedTime": "2018-11-06T19:22:51+00:00"
-}
-```
-
-### Get a Cart
-
-The function below is slightly different. The postData() that was present in Create a Cart above is removed since the function only needs to print the response data to the console. To return the full product data in a cart, an include query parameter must be added. See [Get Cart endpoint](/api-reference/cart-checkout/storefront-cart-api/cart/getacart) for more details. 
-
-<!--
-title: "Get Cart"
-subtitle: ""
-lineNumbers: true
--->
-**Example Get a Cart**
-`/GET https://<store_url>/api/storefront/carts`
 
 ```js
-fetch('/api/storefront/cart?include=lineItems.digitalItems.options,lineItems.physicalItems.options', {
+fetch('/api/storefront/cart', {
   credentials: 'same-origin'}
      )
   .then(function(response) {
@@ -282,99 +103,23 @@ fetch('/api/storefront/cart?include=lineItems.digitalItems.options,lineItems.phy
   .then(function(myJson) {
     console.log(JSON.stringify(myJson));
   });
+  ```
+
+To get complete line item information, append `include=lineItems.digitalItems.options,lineItems.physicalItems.options` to the URL:
+
+```js
+fetch('/api/storefront/cart?include=lineItems.digitalItems.options,lineItems.physicalItems.options', {
+		credentials: 'same-origin'
+	})
+  .then(function(response) {
+    return response.json();
+  })
+  .then(function(myJson) {
+    console.log(JSON.stringify(myJson));
+  });
 ```
 
-<!--
-title: "Get Cart Response"
-subtitle: ""
-lineNumbers: true
--->
-**Example Get Cart Response**
-
-```json
-[{
-	"id": "1650fb51-172b-4cde-a220-90c6a8ef9293",
-	"customerId": 0,
-	"email": "",
-	"currency": {
-		"name": "US Dollars",
-		"code": "USD",
-		"symbol": "$",
-		"decimalPlaces": 2
-	},
-	"isTaxIncluded": false,
-	"baseAmount": 73.95,
-	"discountAmount": 0,
-	"cartAmount": 73.95,
-	"coupons": [],
-	"discounts": [{
-		"id": "7349b13a-1453-4050-a769-1a6ad1823369",
-		"discountedAmount": 0
-	}, {
-		"id": "4a69cbdf-4320-4e1f-852b-0edc2a55f13a",
-		"discountedAmount": 0
-	}],
-	"lineItems": {
-		"physicalItems": [{
-			"id": "7349b13a-1453-4050-a769-1a6ad1823369",
-			"parentId": null,
-			"variantId": 362,
-			"productId": 191,
-			"sku": "",
-			"name": "Openhouse No. 3",
-			"url": "https://{store_url)/all/openhouse-no-3/",
-			"quantity": 1,
-			"brand": "Openhouse Magazine",
-			"isTaxable": true,
-			"imageUrl": "https://cdn11.bigcommerce.com/s-{store_hash)/products/191/images/475/openhousevol3_1024x1024__59692__16355.1534344544.330.500.jpg?c=2",
-			"discounts": [],
-			"discountAmount": 0,
-			"couponAmount": 0,
-			"listPrice": 27.95,
-			"salePrice": 27.95,
-			"extendedListPrice": 27.95,
-			"extendedSalePrice": 27.95,
-			"isShippingRequired": true,
-			"type": "physical",
-			"giftWrapping": null,
-			"options": [{
-				"name": "Add a $5 Donation",
-				"nameId": 82,
-				"value": "",
-				"valueId": 186
-			}]
-		}, {
-			"id": "4a69cbdf-4320-4e1f-852b-0edc2a55f13a",
-			"parentId": null,
-			"variantId": 356,
-			"productId": 185,
-			"sku": "",
-			"name": "Utility Caddy",
-			"url": "https://{store_url)/all/utility-caddy/",
-			"quantity": 1,
-			"brand": "OFS",
-			"isTaxable": true,
-			"imageUrl": "https://cdn11.bigcommerce.com/s-{store_hash)/products/185/images/449/utilitybucket1_1024x1024__78563__75042.1534344535.330.500.jpg?c=2",
-			"discounts": [],
-			"discountAmount": 0,
-			"couponAmount": 0,
-			"listPrice": 46,
-			"salePrice": 46,
-			"extendedListPrice": 46,
-			"extendedSalePrice": 46,
-			"isShippingRequired": true,
-			"type": "physical",
-			"giftWrapping": null,
-			"options": []
-		}],
-		"digitalItems": [],
-		"giftCertificates": [],
-		"customItems": []
-	},
-	"createdTime": "2018-11-06T19:22:51+00:00",
-	"updatedTime": "2018-11-06T19:22:51+00:00"
-}]
-```
+See [API Reference > Storefront Carts > Get a Cart](https://developer.bigcommerce.com/api-reference/cart-checkout/storefront-cart-api/cart/getacart) for a list of available query parameters as well as example responses. 
 
 ### Add Item to Cart
 
@@ -425,35 +170,28 @@ We have also introduced a new way to handle errors. Error handling in fetch can 
     
 <!-- theme: warning -->
 ### Delete Cart Items
-> Deleting the last item in your cart deletes the cart.
+> Deleting the last item in a cart deletes the cart.
 
 </div>
 </div>
 </div>
 
-<!--
-title: "Delete Cart Item"
-subtitle: ""
-lineNumbers: true
--->
-
-**Example Delete Cart Item**  
-`https://<store_url>/api/storefront/carts/{cartId}/items/{itemId}`
 
 ```js
 deleteCartItem(`/api/storefront/carts/`, `f996cb68-b1df-422e-b3dd-0f90faa10210`, `e51ac38d-dacd-449d-b503-f087f14bde67`)
 .then(data => console.log(JSON.stringify(data)))
 .catch(error => console.log(error))
 
-function deleteCartItem(url = ``, cartId = ``, itemId = ``) {
-return fetch(url + cartId + '/items/' + itemId, {
-method: "DELETE",
-credentials: "same-origin",
-headers:
-
-{ "Content-Type": "application/json", }
-})
-.then(response => response.json());
+function deleteCartItem(url = '', cartId = '', itemId = '') {
+	return fetch(url + cartId + '/items/' + itemId, {
+		method: "DELETE",
+		credentials: "same-origin",
+		headers: { 
+			"Content-Type": 
+			"application/json", 
+		}
+		})
+		.then(response => response.json());
 }
 ```
 
