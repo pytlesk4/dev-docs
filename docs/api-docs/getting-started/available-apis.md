@@ -278,7 +278,7 @@ Sunset endpoints will be phased out and removed from the API. Once sunset, the e
 **V3 Sunsets**
 |Endpoint|Date of Deactivation| Alternative |
 |-|-|-|
-|Channels API `is_activated` property| May, 10, 2020|[Channels API](https://developer.bigcommerce.com/api-reference/cart-checkout/channels-listings-api/channels/listchannels) `status` property
+|Channels API `is_enabled` property| May, 10, 2020|[Channels API](https://developer.bigcommerce.com/api-reference/cart-checkout/channels-listings-api/channels/listchannels) `status` property
 
 </div>
 </div>

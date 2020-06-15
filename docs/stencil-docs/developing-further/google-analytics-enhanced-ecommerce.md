@@ -1,4 +1,4 @@
-# Google Analytics Enhanced ECommerce
+# Google Analytics Enhanced Ecommerce
 
 <div class="otp" id="no-index">
 
@@ -11,7 +11,7 @@
 
 </div>
 
-Google Analytics is a free analytics tool that helps you track visitors and conversions on your store. BigCommerce has updated the Google Analytics integration to support Enhanced Ecommerce.  As apart of the Enhanced ECommerce feature, Stencil themes now support Data Tags.
+Google Analytics is a free analytics tool that helps you track visitors and conversions on your store. BigCommerce has updated the Google Analytics integration to support Enhanced Ecommerce.  As apart of the Enhanced Ecommerce feature, Stencil themes now support Data Tags.
 
 Data Tags provide detailed data on the way shoppers interact with your store’s products. However, data tags are not only limited to only product data collection. Data Tags can also track your store’s header and footer for promotions and can collect data on whether those promotions were viewed and/or clicked. BigCommerce’s Data Tags are powered by [Segment](https://segment.com/docs/destinations/google-analytics/) and [Platform.js](https://github.com/segment-integrations/analytics.js-integration-google-analytics/blob/master/lib/index.js), and will send your store’s product data through to Google Analytics.
 
@@ -45,7 +45,7 @@ Note: the remainder of this tutorial will be working off the refer to the theme�
 
 ## Adding Data Tags
 
-### Include the Enhanced ECommerce Property
+### Include the Enhanced Ecommerce Property
 
 1. Open your local copy of your theme and navigate to the theme’s <span class="fn">cornerstone/config.json</span> file.
 
@@ -53,7 +53,7 @@ Note: the remainder of this tutorial will be working off the refer to the theme�
 
 <div class="HubBlock-header">
     <div class="HubBlock-header-title flex items-center">
-        <div class="HubBlock-header-name">Enhanced ECommerce Feature</div>
+        <div class="HubBlock-header-name">Enhanced Ecommerce Feature</div>
     </div><div class="HubBlock-header-subtitle">config.json</div>
 </div>
 
@@ -330,7 +330,7 @@ Next, add the custom metrics/dimensions to the desired theme template:
 
 ### Related Articles
 
-* [Customizing the BigCommerce Google Analytics Enhanced ECommerce Integration](https://medium.com/bigcommerce-developer-blog/customizing-the-bigcommerce-google-analytics-enhanced-ecommerce-integration-803d4338d018) (Developer Blog)
+* [Customizing the BigCommerce Google Analytics Enhanced Ecommerce Integration](https://medium.com/bigcommerce-developer-blog/customizing-the-bigcommerce-google-analytics-enhanced-ecommerce-integration-803d4338d018) (Developer Blog)
 
 ### Additional Resources
-* [Google Analytics Enhanced ECommerce](https://developers.google.com/analytics/devguides/collection/analyticsjs/enhanced-ecommerce#ecommerce-data) (Google)
+* [Google Analytics Enhanced Ecommerce](https://developers.google.com/analytics/devguides/collection/analyticsjs/enhanced-ecommerce#ecommerce-data) (Google)
